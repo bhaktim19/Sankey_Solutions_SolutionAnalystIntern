@@ -1,0 +1,100 @@
+
+Table "Patient" {
+  "patient_id" INT [pk, increment]
+  "first_name" VARCHAR(255) [not null]
+  "last_name" VARCHAR(255) [not null]
+  "date_of_birth" DATE [not null]
+  "gender" Patient_gender_enum [not null]
+  "address" VARCHAR(255)
+  "phone_number" VARCHAR(20)
+  "medical_insurance_id" INT
+  "user_id" INT
+}
+
+Table "User" {
+  "user_id" INT [pk, increment]
+  "email" VARCHAR(255) [unique, not null]
+  "password" VARCHAR(255) [not null]
+  "role_id" INT [not null]
+}
+
+Table "Role" {
+  "role_id" INT [pk, increment]
+  "role_name" VARCHAR(50) [unique, not null]
+}
+
+Table "Department" {
+  "department_id" INT [pk, increment]
+  "department_name" VARCHAR(255) [unique, not null]
+}
+
+Table "Doctor" {
+  "doctor_id" INT [pk, increment]
+  "first_name" VARCHAR(255) [not null]
+  "last_name" VARCHAR(255) [not null]
+  "department_id" INT [not null]
+  "specialization" VARCHAR(255)
+}
+
+Table "Appointment" {
+  "appointment_id" INT [pk, increment]
+  "patient_id" INT [not null]
+  "doctor_id" INT [not null]
+  "appointment_date" DATE [not null]
+  "appointment_time" TIME [not null]
+  "appointment_status" Appointment_appointment_status_enum
+}
+
+Table "MedicalInsurance" {
+  "insurance_id" INT [pk, increment]
+  "insurance_provider" VARCHAR(255) [not null]
+  "policy_number" VARCHAR(255) [not null]
+  "coverage_limits" VARCHAR(255)
+}
+
+Table "Diagnosis" {
+  "diagnosis_id" INT [pk, increment]
+  "appointment_id" INT [not null]
+  "doctor_id" INT [not null]
+  "diagnosis_code" VARCHAR(255) [not null]
+  "diagnosis_description" VARCHAR(255)
+}
+
+Table "Treatment" {
+  "treatment_id" INT [pk, increment]
+  "diagnosis_id" INT [not null]
+  "medication_name" VARCHAR(255)
+  "procedure_name" VARCHAR(255)
+  "dosage" VARCHAR(255)
+  "instructions" VARCHAR(255)
+}
+
+Table "Bill" {
+  "bill_id" INT [pk, increment]
+  "patient_id" INT [not null]
+  "appointment_id" INT
+  "total_amount" DECIMAL(10,2) [not null]
+  "payment_status" Bill_payment_status_enum
+}
+
+Ref:"MedicalInsurance"."insurance_id" < "Patient"."medical_insurance_id"
+
+Ref:"User"."user_id" < "Patient"."user_id"
+
+Ref:"Role"."role_id" < "User"."role_id"
+
+Ref:"Department"."department_id" < "Doctor"."department_id"
+
+Ref:"Patient"."patient_id" < "Appointment"."patient_id"
+
+Ref:"Doctor"."doctor_id" < "Appointment"."doctor_id"
+
+Ref:"Appointment"."appointment_id" < "Diagnosis"."appointment_id"
+
+Ref:"Doctor"."doctor_id" < "Diagnosis"."doctor_id"
+
+Ref:"Diagnosis"."diagnosis_id" < "Treatment"."diagnosis_id"
+
+Ref:"Patient"."patient_id" < "Bill"."patient_id"
+
+Ref:"Appointment"."appointment_id" < "Bill"."appointment_id"
