@@ -1,1 +1,1 @@
-[HotelSearchLandingPage Link](hotelsearchlandingpage.netlify.app)
+[HotelSearchLandingPage Link](https://hotelsearchlandingpage.netlify.app/)
