@@ -1,0 +1,33 @@
+
+
+type User{
+	userId:ID!,
+	name:String,
+	phone:String,
+	email:String,
+	password:String,
+	book:[Bookings]
+}
+
+type Bookings{
+	bookingId:ID!,
+	hotelName:String,
+	address:String,
+	price:Int,
+	user:User
+}
+
+type Query{
+	getUsers:[User],
+	getUser(userId:ID!):User,
+	getBookings:[Bookings],
+	getBooking(bookingId:ID!):Bookings
+}
+
+type Mutation{
+	createUser(name:String, phone:String, email:String, password:String):User
+	deleteUser(userId:ID!):String
+	
+	createBooking(hotelName:String, address:String,	price:Int, userId :Int):Bookings
+	deleteBooking(bookingId:ID!):String
+}
