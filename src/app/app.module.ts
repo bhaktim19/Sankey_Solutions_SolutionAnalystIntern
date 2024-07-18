@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ScrollToTopComponent } from './scroll-to-top/scroll-to-top.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
